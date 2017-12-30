@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>jpf application goals and types | Hecoz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="JPF" />
+  
+  
+  
+  
+  <meta name="description" content="JPF components&amp;emsp;&amp;emsp;Java™不仅仅是一种编程语言。它是一组层，从特定于平台的VM实现开始 (“host VM”),它位于为您的操作系统编写和使用的本机库之上。在这个结构上，我们添加了JPF — 一个运行在 Host VM上的java应用程序，但是它本身是一个虚拟机用来执行你的被测系统（SUT）。  &amp;emsp;&amp;emsp;所有这些递归,对于java代码到底是在那个">
+<meta name="keywords" content="JPF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JPF Application Goals and Types">
+<meta property="og:url" content="http://yoursite.com/2017/12/30/005JPF components/index.html">
+<meta property="og:site_name" content="Hecoz">
+<meta property="og:description" content="JPF components&amp;emsp;&amp;emsp;Java™不仅仅是一种编程语言。它是一组层，从特定于平台的VM实现开始 (“host VM”),它位于为您的操作系统编写和使用的本机库之上。在这个结构上，我们添加了JPF — 一个运行在 Host VM上的java应用程序，但是它本身是一个虚拟机用来执行你的被测系统（SUT）。  &amp;emsp;&amp;emsp;所有这些递归,对于java代码到底是在那个">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://cl.ly/2G3Q0M2v450M/jpf-stack.png">
+<meta property="og:image" content="https://cl.ly/1O3M3Y272N40/jpf-components.png">
+<meta property="og:updated_time" content="2017-12-30T14:08:56.379Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JPF Application Goals and Types">
+<meta name="twitter:description" content="JPF components&amp;emsp;&amp;emsp;Java™不仅仅是一种编程语言。它是一组层，从特定于平台的VM实现开始 (“host VM”),它位于为您的操作系统编写和使用的本机库之上。在这个结构上，我们添加了JPF — 一个运行在 Host VM上的java应用程序，但是它本身是一个虚拟机用来执行你的被测系统（SUT）。  &amp;emsp;&amp;emsp;所有这些递归,对于java代码到底是在那个">
+<meta name="twitter:image" content="https://cl.ly/2G3Q0M2v450M/jpf-stack.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hecoz" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">关于</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-005JPF components" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      JPF Application Goals and Types
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/12/30/005JPF components/" class="article-date">
+	  <time datetime="2017-12-30T13:15:04.000Z" itemprop="datePublished">2017-12-30</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="JPF-components"><a href="#JPF-components" class="headerlink" title="JPF components"></a>JPF components</h3><p>&emsp;&emsp;Java™不仅仅是一种编程语言。它是一组层，从特定于平台的VM实现开始 (“host VM”),它位于为您的操作系统编写和使用的本机库之上。在这个结构上，我们添加了JPF — 一个运行在 Host VM上的java应用程序，但是它本身是一个虚拟机用来执行你的被测系统（SUT）。</p>
+<p><img src="https://cl.ly/2G3Q0M2v450M/jpf-stack.png" alt="jpf-stack"></p>
+<p>&emsp;&emsp;所有这些递归,对于java代码到底是在那个水平进行处理这是容易混淆的。更糟的是，大多书的标准库类文件（java.*classes）和一些注解同时被两个虚拟机运行，当然，在不同的实例。本页的目的是了解代码与系统的不同层和部件相关的一些指示灯。</p>
+<p>&emsp;&emsp;为了进一步的说明，我们退一步，看看在将JPF应用在SUT上时使用到了哪些组件。我们从两个方面对组件进行分类：</p>
+<blockquote>
+<p>processing VM (host VM, JPF)</p>
+<p>associated distribution entity 关联分布实体(host Java installation, JPF core, JPF extensions, SUT)</p>
+</blockquote>
+<p>&emsp;&emsp;还记得what is jpf中的介绍图吗？下面这个图更详细一点：<br><img src="https://cl.ly/1O3M3Y272N40/jpf-components.png" alt="jpf-components"></p>
+<p>&emsp;&emsp;让我们从左往右看这幅图，我们从要验证的编译后的java应用程序开始，这当然不是JPF一部分，但是要通过JPF来执行。因此，相应的类文件不必在主机VM中可见（因为运行在JPF上）。但是，应用程序代码可能使用驻留在JPF发行版中的类和接口（例如框架的UML状态图建模，或验证相关的注释类型从JPF APROP扩展）。同时，应用程序和这些建模库和/或注释形成被测试系统(SUT)。</p>
+<p>&emsp;&emsp;接下来是JPF核心本身，现在我们知道这是一个用java写的虚拟机，所以你可以运行在任何装有java的系统上。这意味着构成JPF的所有类都必须对“主机jvm”可见。例如，通过设置CLASSPATH环境变量(这不是建议的方法)。</p>
+<p>&emsp;&emsp;下面是重要的一部分：<strong>JPF不是一个单一的系统</strong>。它使用各种配置的组件来执行以下任务：</p>
+<ul>
+<li>property implementation</li>
+<li>library modeling</li>
+<li>report generation</li>
+</ul>
+<p>除此之外还有更多，即使你在运行时不指定任何东西，Jpf将使用默认配置，该配置将引入许多组件，如监听器listener。它们不必是JPF核心的一部分，但可以驻留在它们自己的JPF扩展模块中。</p>
+<p>如果您确实指定了自己的配置，您可以告诉JPF使用位于JPF核心发行版之外的组件，无论是在已安装的JPF扩展模块中还是在您自己的项目中。无论哪种方式，所有这些 listeners, native peers, publishers和其他组件都处于整个JPF系统的运行时部分，因此它们需要在主机VM中可见。</p>
+<p>&emsp;&emsp;最后一部分是最棘手的部分，您的应用程序很可能使用标准java库（e.g. System.out.println()。当jpf执行sut时，一些标准库类必须替换为jpf特定的版本（例如，类如java.lang.classthat有本地方法），不过JPF有一个特殊的MJI机制来实现这一点。然而，大多数标准库类都有纯java实现，我们可以从主机JVM的安装中直接获取这些。</p>
+<p>&emsp;&emsp;JPF保持关联的类路径分离。在JPF配置中有三种不同的路径设置：</p>
+<ul>
+<li><p>native_classpath — 这包括必须对主机vm可见的所有内容，主要包括JPF本身的类，listeners, native peers和bytecode instruction sets。</p>
+<blockquote>
+<p>The native_classpath is dynamically constructed from your site.properties and jpf.properties configuration files during JPF startup, and processed by the JPF classloader</p>
+</blockquote>
+</li>
+<li><p>classpath — 这包括由JPF执行的类。</p>
+</li>
+<li>sourcepath — 取决于必须由JPF生成的报告,它可能必须为执行的类文件(字节码)查找SUT和库源。这就是如何告诉JPF这些源位于何处。</li>
+</ul>
+<p>可以从应用程序属性文件或命令行显式地设置这些路径列表，但是最好让JPF在处理JPF组件的JPF.properties文件时收集它们，这些文件都包括类似的行：</p>
+<blockquote>
+<p>\<jpf-module>.native_classpath = .. <br><br>\<jpf-module>.classpath = .. <br><br>\<jpf-module>.sourcepath = .. <br></jpf-module></jpf-module></jpf-module></p>
+</blockquote>
+<p>警告：如果–在启动JPF期间–您会遇到如下消息:</p>
+<blockquote>
+<p>…<br>[SEVERE} error during VM runtime initialization: wrong model classes (check ‘classpath’)</p>
+</blockquote>
+<p>这意味着CLASSPATH设置是错误的，jpf加载了一些必须用自己的版本替换的标准库类。they need to be modeled (like java.lang.Thread, java.lang.Class and others - all part of jpf-classes.jar within the jpf-core module).</p>
+<p>This can also happen later-on with less essential library classes that are not part of jpf-core, but should be loaded from one of the installed extensions. In this case, this usually shows up as an UnsatisfiedLinkError</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: '打赏支持', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'https://raw.githubusercontent.com/iTimeTraveler/iTimeTraveler.github.io/site/source/about/donate/images/WeChanQR.png',
+  alipayImage: ''
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JPF/">JPF</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/30/004JPF Application Goals and Types/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">JPF Application Goals and Types</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JPF-components"><span class="nav-number">1.</span> <span class="nav-text">JPF components</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2017 Hecoz All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Hecoz
+          </div>
+          <div class="panel-body">
+            Copyright © 2017 Hecoz All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>
